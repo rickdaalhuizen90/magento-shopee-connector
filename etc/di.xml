@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Upvado\ShopeeConnector\Api\TokenRepositoryInterface"
+        type="Upvado\ShopeeConnector\Model\TokenRepository" />
+
+    <preference for="Upvado\ShopeeConnector\Api\ActivityRepositoryInterface"
+        type="Upvado\ShopeeConnector\Model\ActivityRepository" />
+
+    <preference for="Upvado\ShopeeConnector\Api\AccountRepositoryInterface"
+        type="Upvado\ShopeeConnector\Model\AccountRepository" />
+
+    <preference for="Upvado\ShopeeConnector\Api\ShopRepositoryInterface"
+        type="Upvado\ShopeeConnector\Model\ShopRepository" />
+
+    <preference for="Upvado\ShopeeConnector\Api\AttributeMappingRepositoryInterface"
+        type="Upvado\ShopeeConnector\Model\AttributeMappingRepository" />
+
+    <preference for="Upvado\ShopeeConnector\Api\CategoryMappingRepositoryInterface"
+        type="Upvado\ShopeeConnector\Model\CategoryMappingRepository" />
+
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="shopeeconnector_generate_pkcepair" xsi:type="object">
+                    Upvado\ShopeeConnector\Console\Command\GeneratePKCEPair</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\Pool"
+        type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="general" xsi:type="array">
+                    <item name="class" xsi:type="string">
+                        Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\General</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+                <item name="category_mapping" xsi:type="array">
+                    <item name="class" xsi:type="string">
+                        Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\CategoryMapping</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+                <item name="attribute_mapping" xsi:type="array">
+                    <item name="class" xsi:type="string">
+                        Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\AttributeMapping</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+                <item name="product" xsi:type="array">
+                    <item name="class" xsi:type="string">
+                        Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\Product</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                </item>
+                <item name="inventory" xsi:type="array">
+                    <item name="class" xsi:type="string">
+                        Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\Inventory</item>
+                    <item name="sortOrder" xsi:type="number">50</item>
+                </item>
+                <item name="orders" xsi:type="array">
+                    <item name="class" xsi:type="string">
+                        Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\Orders</item>
+                    <item name="sortOrder" xsi:type="number">60</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\DataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">
+                Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\Modifier\Pool</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="shopee_connector_account_listing_data_source" xsi:type="string">
+                    Upvado\ShopeeConnector\Model\ResourceModel\Account\Grid\Collection</item>
+                <item name="shopee_connector_product_listing_data_source" xsi:type="string">
+                    Upvado\ShopeeConnector\Model\ResourceModel\Product\Grid\Collection</item>
+                <item name="shopee_connector_order_listing_data_source" xsi:type="string">
+                    Upvado\ShopeeConnector\Model\ResourceModel\Order\Grid\Collection</item>
+                <item name="shopee_connector_activity_listing_data_source" xsi:type="string">
+                    Upvado\ShopeeConnector\Model\ResourceModel\Activity\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Upvado\ShopeeConnector\Model\ResourceModel\Account\Grid\Collection"
+        type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">upvado_shopee_account</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Upvado\ShopeeConnector\Model\ResourceModel\Account</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Upvado\ShopeeConnector\Model\ResourceModel\Product\Grid\Collection"
+        type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">upvado_shopee_product</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Upvado\ShopeeConnector\Model\ResourceModel\Product</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Upvado\ShopeeConnector\Model\ResourceModel\Order\Grid\Collection"
+        type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">upvado_shopee_order</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Upvado\ShopeeConnector\Model\ResourceModel\Order</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Upvado\ShopeeConnector\Model\ResourceModel\Activity\Grid\Collection"
+        type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">upvado_shopee_activity</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Upvado\ShopeeConnector\Model\ResourceModel\Activity</argument>
+        </arguments>
+    </virtualType>
+</config>
+

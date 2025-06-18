@@ -1,0 +1,263 @@
+{
+  "upvado_shopee_token": {
+    "column": {
+      "entity_id": true,
+      "access_token": true,
+      "expires_at": true,
+      "client_id": true,
+      "client_secret": true,
+      "store_id": true,
+      "user_id": true,
+      "refresh_token": true,
+      "grant_type": true,
+      "account_id": true,
+      "expires_in": true,
+      "token_last_refreshed": true,
+      "created_at": true,
+      "updated_at": true,
+      "expire_in": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "UPVADO_SHOPEE_TOKEN_STORE_ID_STORE_STORE_ID": true,
+      "UPVADO_SHOPEE_TOKEN_ACCESS_TOKEN_STORE_ID": true,
+      "UPVADO_SHOPEE_TOKEN_ACCESS_TOKEN_USER_ID": true,
+      "UPVADO_SHOPEE_TOKEN_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID": true
+    },
+    "index": {
+      "UPVADO_SHOPEE_TOKEN_ACCOUNT_ID": true
+    }
+  },
+  "upvado_shopee_account": {
+    "column": {
+      "entity_id": true,
+      "merchant_id": true,
+      "shop_type": true,
+      "region": true,
+      "warehouse_code": true,
+      "name": true,
+      "api_status": true,
+      "sync_enabled": true,
+      "last_sync_time": true,
+      "created_at": true,
+      "updated_at": true,
+      "last_synced_at": true,
+      "status": true,
+      "shop_id": true,
+      "shop_name": true,
+      "is_sip": true,
+      "is_upgraded_cbsc": true,
+      "shop_fulfillment_flag": true,
+      "is_enabled": true,
+      "is_cp": true,
+      "is_active": true,
+      "is_cb": true,
+      "sync_products": true,
+      "price_adjustment_type": true,
+      "price_adjustment_value": true,
+      "fulfillment_time": true,
+      "fetch_orders": true,
+      "default_shipping_method": true,
+      "default_payment_method": true,
+      "sync_inventory": true,
+      "inventory_threshold": true,
+      "product_upload": true
+    },
+    "index": {
+      "UPVADO_SHOPEE_ACCOUNT_MERCHANT_ID": true,
+      "UPVADO_SHOPEE_ACCOUNT_MERCHANT_ID_SHOP_ID": true,
+      "UPVADO_SHOPEE_ACCOUNT_REGION": true,
+      "UPVADO_SHOPEE_ACCOUNT_SHOP_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "FK_82D2EC1CA8B5111724BDCEC279662DFC": true,
+      "UPVADO_SHOPEE_ACCOUNT_SHOP_ID_UPVADO_SHOPEE_SHOP_SHOP_ID": true,
+      "UPVADO_SHOPEE_ACCOUNT_SHOP_ID_UPVADO_SHOPEE_SHOP_ENTITY_ID": true
+    }
+  },
+  "upvado_shopee_product": {
+    "column": {
+      "entity_id": true,
+      "account_id": true,
+      "sku": true,
+      "shopee_product_id": true,
+      "status": true,
+      "sync_action": true,
+      "last_synced_at": true,
+      "created_at": true,
+      "updated_at": true,
+      "product_id": true,
+      "shopee_id": true,
+      "sync_status": true,
+      "failed_count": true
+    },
+    "index": {
+      "UPVADO_SHOPEE_PRODUCT_ACCOUNT_ID": true,
+      "UPVADO_SHOPEE_PRODUCT_STATUS": true,
+      "UPVADO_SHOPEE_PRODUCT_SYNC_STATUS": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "UPVADO_SHOPEE_PRODUCT_SKU": true,
+      "UPVADO_SHOPEE_PRODUCT_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID": true,
+      "UPVADO_SHOPEE_PRODUCT_SHOPEE_ID": true,
+      "UPVADO_SHOPEE_PRD_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true
+    }
+  },
+  "upvado_shopee_schedule": {
+    "column": {
+      "entity_id": true,
+      "cron_schedule_name": true,
+      "account_id": true,
+      "frequency": true,
+      "status": true,
+      "last_executed_at": true,
+      "next_execution_at": true
+    },
+    "index": {
+      "UPVADO_SHOPEE_SCHEDULE_ACCOUNT_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "UPVADO_SHOPEE_SCHEDULE_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTT_ID": true
+    }
+  },
+  "upvado_shopee_activity": {
+    "column": {
+      "entity_id": true,
+      "account_id": true,
+      "action": true,
+      "status": true,
+      "message": true,
+      "executed_at": true,
+      "created_at": true,
+      "activity": true,
+      "code": true,
+      "occurred_at": true,
+      "response": true,
+      "status_code": true,
+      "trace": true
+    },
+    "index": {
+      "UPVADO_SHOPEE_ACTIVITY_ACCOUNT_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "UPVADO_SHOPEE_ACTIVITY_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTT_ID": true
+    }
+  },
+  "upvado_shopee_order": {
+    "column": {
+      "entity_id": true,
+      "account_id": true,
+      "shopee_order_id": true,
+      "magento_order_id": true,
+      "order_status": true,
+      "total_amount": true,
+      "payment_method": true,
+      "created_at": true,
+      "updated_at": true,
+      "order_sn": true,
+      "sync_status": true,
+      "last_synced_at": true
+    },
+    "index": {
+      "UPVADO_SHOPEE_ORDER_ACCOUNT_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "UPVADO_SHOPEE_ORDER_SHOPEE_ORDER_ID": true,
+      "UPVADO_SHOPEE_ORDER_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID": true,
+      "UPVADO_SHOPEE_ORDER_ORDER_SN": true
+    }
+  },
+  "upvado_shopee_template": {
+    "column": {
+      "entity_id": true,
+      "code": true,
+      "description": true,
+      "created_at": true,
+      "updated_at": true,
+      "name": true,
+      "sync_products": true,
+      "sync_inventory": true,
+      "fetch_orders": true,
+      "fulfilment_days": true,
+      "price_adjustment_type": true,
+      "price_increment": true,
+      "price_decrement": true,
+      "shipping_method": true,
+      "payment_method": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "UPVADO_SHOPEE_TEMPLATE_CODE": true,
+      "UPVADO_SHOPEE_TEMPLATE_NAME": true
+    }
+  },
+  "upvado_shopee_template_account": {
+    "column": {
+      "template_id": true,
+      "account_id": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "FK_CDB5460E57194C305621A3C2B7AEC42C": true,
+      "FK_02AD5C9845B7689A98541FBF6D60EB7E": true
+    }
+  },
+  "upvado_shopee_category_mapping": {
+    "column": {
+      "template_id": true,
+      "magento_category_id": true,
+      "shopee_category_id": true,
+      "account_id": true,
+      "system_category_id": true,
+      "category_id": true,
+      "record_id": true,
+      "entity_id": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "FK_6BC438563972A4627F9E393F840B3DB3": true,
+      "FK_01B8F6309E7039374A9CF98D109CA61D": true,
+      "UPVADO_SHOPEE_CTGR_MAPPING_SYSTEM_CTGR_ID_CAT_CTGR_ENTT_ENTT_ID": true,
+      "UPVADO_SHOPEE_CATEGORY_MAPPING_ACCOUNT_ID_RECORD_ID": true,
+      "UPVADO_SHOPEE_CATEGORY_MAPPING_ACCOUNT_ID_SYSTEM_CATEGORY_ID": true
+    }
+  },
+  "upvado_shopee_attribute_mapping": {
+    "column": {
+      "template_id": true,
+      "magento_attribute_id": true,
+      "shopee_attribute_id": true,
+      "account_id": true,
+      "system_attribute_id": true,
+      "attribute_id": true,
+      "record_id": true,
+      "entity_id": true
+    },
+    "constraint": {
+      "PRIMARY": true,
+      "FK_B7E5CD6E70BEAFB8F947612A775048D3": true,
+      "FK_514998C4997F0D3B28366D2342F686CE": true,
+      "UPVADO_SHOPEE_ATTR_MAPPING_SYSTEM_ATTR_ID_CAT_EAV_ATTR_ATTR_ID": true,
+      "UPVADO_SHOPEE_ATTRIBUTE_MAPPING_ACCOUNT_ID_RECORD_ID": true,
+      "UPVADO_SHOPEE_ATTRIBUTE_MAPPING_ACCOUNT_ID_SYSTEM_ATTRIBUTE_ID": true
+    }
+  },
+  "upvado_shopee_shop": {
+    "column": {
+      "name": true,
+      "is_sip": true,
+      "is_cb": true,
+      "region": true,
+      "entity_id": true,
+      "shop_id": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  }
+}

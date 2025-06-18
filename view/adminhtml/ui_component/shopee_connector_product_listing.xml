@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                shopee_connector_product_listing.shopee_connector_product_listing_data_source</item>
+        </item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">bulk_upload</item>
+                <item name="label" xsi:type="string" translate="true">Bulk Upload</item>
+                <item name="url" xsi:type="string">shopee_connector/product/bulk_upload</item>
+                <item name="class" xsi:type="string">primary</item>
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>shopee_connector_product_listing_columns</spinner>
+        <deps>
+            <dep>shopee_connector_product_listing.shopee_connector_product_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="shopee_connector_product_listing_data_source"
+        component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render" />
+        </settings>
+        <aclResource>Upvado_ShopeeConnector::products</aclResource>
+        <dataProvider class="Upvado\ShopeeConnector\Ui\DataProvider\Product\Listing\DataProvider"
+            name="shopee_connector_product_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <paging name="listing_paging" />
+        <filters name="listing_filters" />
+    </listingToolbar>
+    <columns name="shopee_connector_product_listing_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="entity_id">
+            <settings>
+                <label translate="true">ID</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+
+        <column name="thumbnail"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Product\Thumbnail"
+            component="Magento_Ui/js/grid/columns/thumbnail">
+            <settings>
+                <label translate="true">Thumbnail</label>
+                <altField>product_name</altField>
+                <hasPreview>1</hasPreview>
+                <addField>true</addField>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+
+        <column name="product_name">
+            <settings>
+                <label translate="true">Product Name</label>
+                <dataType>text</dataType>
+                <filter>text</filter>
+            </settings>
+        </column>
+
+        <column name="details"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Product\Details">
+            <settings>
+                <label translate="true">Details</label>
+                <sortable>false</sortable>
+                <filter>false</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="shop_name">
+            <settings>
+                <label translate="true">Shop</label>
+                <dataType>text</dataType>
+                <filter>text</filter>
+            </settings>
+        </column>
+
+        <column name="shopee_id"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Product\ShopeeId">
+            <settings>
+                <label translate="true">Shopee ID</label>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <sortable>true</sortable>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="failed_count">
+            <settings>
+                <label translate="true">Failed Count</label>
+                <dataType>text</dataType>
+                <sortable>true</sortable>
+            </settings>
+        </column>
+
+        <column name="sync_status"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Product\Status">
+            <settings>
+                <label translate="true">Status</label>
+                <dataType>text</dataType>
+                <filter>select</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="sync_action"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Product\SyncAction">
+            <settings>
+                <label translate="true">Sync Action</label>
+                <dataType>number</dataType>
+            </settings>
+        </column>
+
+        <column name="last_synced_at"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Product\LastSyncedAt">
+            <settings>
+                <label translate="true">Last Sync</label>
+                <dataType>date</dataType>
+                <sortable>true</sortable>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Product\Actions">
+            <settings>
+                <label translate="true">Actions</label>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

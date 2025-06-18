@@ -1,0 +1,19 @@
+{
+  "name": "upvado/magento2-module-shopee-connector",
+  "version": "1.0.0",
+  "description": "",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "^103.0",
+    "php": "^8.1",
+    "upvado/shopee-client": "^1.0"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Upvado\\ShopeeConnector\\": ""
+    }
+  }
+}

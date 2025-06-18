@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="upvado_shopee_token" resource="default" engine="innodb"
+        comment="Shopee Token Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false"
+            identity="true" comment="Entity ID" />
+        <column xsi:type="int" name="account_id" padding="10" unsigned="true" nullable="false"
+            comment="Account ID" />
+        <column xsi:type="text" name="access_token" nullable="false" comment="Access Token" />
+        <column xsi:type="text" name="refresh_token" nullable="false" comment="Refresh Token" />
+        <column xsi:type="timestamp" name="expire_in" nullable="false" comment="Token Expiry Time" />
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false"
+            default="CURRENT_TIMESTAMP" comment="Created At" />
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false"
+            default="CURRENT_TIMESTAMP" comment="Updated At" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="foreign"
+            referenceId="UPVADO_SHOPEE_TOKEN_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID"
+            table="upvado_shopee_token" column="account_id"
+            referenceTable="upvado_shopee_account" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+        <index referenceId="UPVADO_SHOPEE_TOKEN_ACCOUNT_ID" indexType="btree">
+            <column name="account_id" />
+        </index>
+    </table>
+
+    <table name="upvado_shopee_account" resource="default" engine="innodb"
+        comment="Shopee Account Table">
+        <column name="entity_id" xsi:type="int" unsigned="true" nullable="false" identity="true"
+            comment="Entity ID" />
+        <column name="shop_id" xsi:type="int" padding="10" unsigned="true" nullable="true"
+            comment="Shop ID" />
+        <column name="is_active" xsi:type="smallint" default="0" unsigned="true" nullable="true"
+            comment="Is Active" />
+        <column name="product_upload" xsi:type="smallint" unsigned="true" nullable="false"
+            default="1" comment="Product Upload Status" />
+        <column name="price_adjustment_type" xsi:type="varchar" length="255" nullable="true"
+            comment="Price Adjustment Type" />
+        <column name="price_adjustment_value" xsi:type="decimal" precision="12" scale="4"
+            nullable="true" comment="Price Adjustment Value" />
+        <column name="fulfillment_time" xsi:type="int" unsigned="true" nullable="true"
+            comment="Fulfillment Time in Days" />
+        <column name="fetch_orders" xsi:type="smallint" unsigned="true" nullable="false" default="1"
+            comment="Fetch Orders Status" />
+        <column name="default_shipping_method" xsi:type="varchar" length="255" nullable="false"
+            comment="Default Shipping Method" />
+        <column name="default_payment_method" xsi:type="varchar" length="255" nullable="true"
+            comment="Default Payment Method" />
+        <column name="sync_inventory" xsi:type="smallint" unsigned="true" nullable="false"
+            default="1" comment="Sync Inventory Status" />
+        <column name="inventory_threshold" xsi:type="int" unsigned="true" nullable="true"
+            default="5" comment="Inventory Threshold Value" />
+        <column name="created_at" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP"
+            comment="Created At" />
+        <column name="updated_at" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP"
+            on_update="true" comment="Updated At" />
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <index referenceId="UPVADO_SHOPEE_ACCOUNT_SHOP_IDX" indexType="btree">
+            <column name="shop_id" />
+        </index>
+
+        <constraint xsi:type="foreign" referenceId="UPVADO_SHOPEE_ACCOUNT_SHOP_ID"
+            table="upvado_shopee_account" column="shop_id"
+            referenceTable="upvado_shopee_shop" referenceColumn="shop_id"
+            onDelete="SET NULL" />
+    </table>
+
+    <table name="upvado_shopee_shop" resource="default" engine="innodb" comment="Shopee Shop Table">
+        <column name="shop_id" xsi:type="int" unsigned="true" nullable="false" comment="Shop ID" />
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Account Name" />
+        <column xsi:type="smallint" name="is_sip" padding="2" unsigned="true" nullable="true"
+            comment="Is SIP" />
+        <column xsi:type="smallint" name="is_cb" padding="2" unsigned="true" nullable="true"
+            comment="Is Cross-Border" />
+        <column xsi:type="varchar" name="region" nullable="true" length="10" comment="Shopee Region" />
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="shop_id" />
+        </constraint>
+    </table>
+
+    <table name="upvado_shopee_category_mapping" resource="default" engine="innodb"
+        comment="Shopee Category Mapping">
+        <column name="entity_id" xsi:type="int" unsigned="true" nullable="false" identity="true"
+            comment="Entity ID" />
+        <column xsi:type="int" name="record_id" unsigned="true" nullable="false" default="0"
+            comment="Record ID" />
+        <column xsi:type="int" name="account_id" unsigned="true" nullable="false"
+            comment="Account ID" />
+        <column xsi:type="int" name="system_category_id" unsigned="true" nullable="false"
+            comment="Magento Category ID" />
+        <column xsi:type="varchar" name="category_id" nullable="false" length="50"
+            comment="Shopee Category ID" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNQ_UPVADO_SHOPEE_CAT_MAP_ACCOUNT_RECORD">
+            <column name="account_id" />
+            <column name="system_category_id" />
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="UPVADO_SHOPEE_CAT_MAP_ACCOUNT_ID"
+            table="upvado_shopee_category_mapping" column="account_id"
+            referenceTable="upvado_shopee_account" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+
+        <constraint xsi:type="foreign" referenceId="UPVADO_SHOPEE_CAT_MAP_CAT_ID"
+            table="upvado_shopee_category_mapping" column="system_category_id"
+            referenceTable="catalog_category_entity" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+    </table>
+
+    <table name="upvado_shopee_attribute_mapping" resource="default" engine="innodb"
+        comment="Shopee Attribute Mapping">
+        <column name="entity_id" xsi:type="int" unsigned="true" nullable="false" identity="true"
+            comment="Entity ID" />
+        <column xsi:type="int" name="record_id" unsigned="true" nullable="false" default="0"
+            comment="Record ID" />
+        <column xsi:type="int" name="account_id" unsigned="true" nullable="false"
+            comment="Account ID" />
+        <column xsi:type="smallint" name="system_attribute_id" unsigned="true" padding="5"
+            nullable="false"
+            comment="Magento Attribute ID" />
+        <column xsi:type="varchar" name="attribute_id" nullable="false" length="50"
+            comment="Shopee Attribute ID" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNQ_UPVADO_SHOPEE_ATTR_MAP_ACCOUNT_RECORD">
+            <column name="account_id" />
+            <column name="system_attribute_id" />
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="UPVADO_SHOPEE_ATTR_MAP_ACCOUNT_ID"
+            table="upvado_shopee_attribute_mapping" column="account_id"
+            referenceTable="upvado_shopee_account" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+
+        <constraint xsi:type="foreign" referenceId="UPVADO_SHOPEE_CAT_MAP_ATTR_ID"
+            table="upvado_shopee_category_mapping" column="system_attribute_id"
+            referenceTable="catalog_eav_attribute" referenceColumn="attribute_id"
+            onDelete="CASCADE" />
+    </table>
+
+    <table name="upvado_shopee_product" resource="default" engine="innodb"
+        comment="Shopee Product Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false"
+            identity="true" comment="Entity ID" />
+        <column xsi:type="int" name="account_id" padding="10" unsigned="true" nullable="false"
+            comment="Account ID" />
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false"
+            comment="Product ID" />
+        <column xsi:type="bigint" name="shopee_id" padding="20" unsigned="true" nullable="false"
+            comment="Shopee ID" />
+        <column xsi:type="int" name="failed_count" unsigned="true" nullable="false"
+            comment="Failed Count" />
+        <column xsi:type="smallint" name="sync_status" padding="2" unsigned="true" nullable="false"
+            comment="Status" />
+        <column xsi:type="smallint" name="sync_action" padding="2" unsigned="true" nullable="false"
+            comment="Sync Action" />
+        <column xsi:type="timestamp" name="last_synced_at" on_update="false" nullable="true"
+            comment="Last Synced At" />
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false"
+            default="CURRENT_TIMESTAMP" comment="Created At" />
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false"
+            default="CURRENT_TIMESTAMP" comment="Updated At" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UPVADO_SHOPEE_PRODUCT_SHOPEE_ID">
+            <column name="shopee_id" />
+        </constraint>
+        <constraint xsi:type="foreign"
+            referenceId="UPVADO_SHOPEE_PRODUCT_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID"
+            table="upvado_shopee_product" column="account_id"
+            referenceTable="upvado_shopee_account" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+        <constraint xsi:type="foreign"
+            referenceId="UPVADO_SHOPEE_PRODUCT_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ID"
+            table="upvado_shopee_product" column="product_id"
+            referenceTable="catalog_product_entity" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+        <index referenceId="UPVADO_SHOPEE_PRODUCT_ACCOUNT_ID" indexType="btree">
+            <column name="account_id" />
+        </index>
+        <index referenceId="UPVADO_SHOPEE_PRODUCT_SYNC_STATUS" indexType="btree">
+            <column name="sync_status" />
+        </index>
+    </table>
+
+    <table name="upvado_shopee_schedule" resource="default" engine="innodb"
+        comment="Shopee Schedule Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false"
+            identity="true" comment="Entity ID" />
+        <column xsi:type="varchar" name="cron_schedule_name" nullable="false" length="100"
+            comment="Cron Schedule Name" />
+        <column xsi:type="int" name="account_id" padding="10" unsigned="true" nullable="true"
+            comment="Account ID" />
+        <column xsi:type="smallint" name="frequency" padding="2" unsigned="true" nullable="false"
+            comment="Frequency" />
+        <column xsi:type="smallint" name="status" padding="2" unsigned="true" nullable="false"
+            comment="Status" />
+        <column xsi:type="timestamp" name="last_executed_at" on_update="false" nullable="true"
+            comment="Last Executed At" />
+        <column xsi:type="timestamp" name="next_execution_at" on_update="false" nullable="true"
+            comment="Next Execution At" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="foreign"
+            referenceId="UPVADO_SHOPEE_SCHEDULE_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID"
+            table="upvado_shopee_schedule" column="account_id"
+            referenceTable="upvado_shopee_account" referenceColumn="entity_id"
+            onDelete="SET NULL" />
+        <index referenceId="UPVADO_SHOPEE_SCHEDULE_ACCOUNT_ID" indexType="btree">
+            <column name="account_id" />
+        </index>
+    </table>
+
+    <table name="upvado_shopee_activity" resource="default" engine="innodb"
+        comment="Shopee Activity Log Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false"
+            identity="true" comment="Entity ID" />
+        <column xsi:type="int" name="account_id" padding="10" unsigned="true" nullable="false"
+            comment="Account ID" />
+        <column xsi:type="varchar" name="activity" nullable="false" comment="Activity" />
+        <column xsi:type="text" name="message" nullable="true" comment="Message" />
+        <column xsi:type="text" name="response" comment="Response" />
+        <column xsi:type="text" name="trace" comment="Trace" />
+        <column xsi:type="int" name="status_code" padding="3" comment="Staus Code" />
+        <column xsi:type="timestamp" name="occurred_at" on_update="false" nullable="false"
+            default="CURRENT_TIMESTAMP" comment="Executed At" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="foreign"
+            referenceId="UPVADO_SHOPEE_ACTIVITY_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID"
+            table="upvado_shopee_activity" column="account_id"
+            referenceTable="upvado_shopee_account" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+        <index referenceId="UPVADO_SHOPEE_ACTIVITY_ACCOUNT_ID" indexType="btree">
+            <column name="account_id" />
+        </index>
+    </table>
+
+    <table name="upvado_shopee_order" resource="default" engine="innodb"
+        comment="Shopee Order Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false"
+            identity="true" comment="Entity ID" />
+        <column xsi:type="int" name="account_id" padding="10" unsigned="true" nullable="false"
+            comment="Account ID" />
+        <column xsi:type="bigint" name="order_sn" padding="20" unsigned="true" nullable="false"
+            comment="Shopee Order ID" />
+        <column xsi:type="int" name="magento_order_id" padding="10" unsigned="true" nullable="false"
+            comment="Magento Order ID" />
+        <column xsi:type="smallint" name="sync_status" padding="2" unsigned="true" nullable="false"
+            comment="Status" />
+        <column xsi:type="timestamp" name="last_synced_at" on_update="false" nullable="true"
+            comment="Last Synced At" />
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false"
+            default="CURRENT_TIMESTAMP" comment="Created At" />
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false"
+            default="CURRENT_TIMESTAMP" comment="Updated At" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id" />
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UPVADO_SHOPEE_ORDER_SHOPEE_ORDER_ID">
+            <column name="order_sn" />
+        </constraint>
+        <constraint xsi:type="foreign"
+            referenceId="UPVADO_SHOPEE_ORDER_ACCOUNT_ID_UPVADO_SHOPEE_ACCOUNT_ENTITY_ID"
+            table="upvado_shopee_order" column="account_id"
+            referenceTable="upvado_shopee_account" referenceColumn="entity_id"
+            onDelete="CASCADE" />
+        <index referenceId="UPVADO_SHOPEE_ORDER_ACCOUNT_ID" indexType="btree">
+            <column name="account_id" />
+        </index>
+    </table>
+</schema>

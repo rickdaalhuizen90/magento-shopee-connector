@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                shopee_connector_account_form.shopee_connector_account_form_data_source</item>
+            <item name="namespace" xsi:type="string">shopee_connector_account_form</item>
+        </item>
+    </argument>
+    <settings>
+        <layout>
+            <navContainerName>left</navContainerName>
+            <type>tabs</type>
+        </layout>
+        <deps>
+            <dep>shopee_connector_account_form.shopee_connector_account_form_data_source</dep>
+        </deps>
+        <dataScope>data</dataScope>
+        <spinner>shopee_connector_account_form_columns</spinner>
+        <buttons>
+            <button name="save"
+                class="Upvado\ShopeeConnector\Block\Adminhtml\Edit\Account\Button\Save" />
+            <button name="reauthorize"
+                class="Upvado\ShopeeConnector\Block\Adminhtml\Edit\Account\Button\Authorize" />
+            <button name="duplicate"
+                class="Upvado\ShopeeConnector\Block\Adminhtml\Edit\Account\Button\Duplicate" />
+            <button name="back">
+                <url path="*/*/" />
+                <class>back</class>
+                <label translate="true">Back</label>
+            </button>
+        </buttons>
+    </settings>
+    <dataSource name="shopee_connector_account_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="*/*/save" />
+        </settings>
+        <dataProvider class="Upvado\ShopeeConnector\Ui\DataProvider\Account\Form\DataProvider"
+            name="shopee_connector_account_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label translate="true">General</label>
+        </settings>
+        <field name="shop_id" formElement="hidden">
+            <settings>
+                <dataType>text</dataType>
+            </settings>
+        </field>
+        <field name="name" formElement="input">
+            <settings>
+                <label translate="true">Name</label>
+                <dataType>text</dataType>
+                <disabled>true</disabled>
+            </settings>
+        </field>
+        <field name="region" formElement="input">
+            <settings>
+                <label translate="true">Region</label>
+                <dataType>text</dataType>
+                <disabled>true</disabled>
+            </settings>
+        </field>
+        <field name="expiration" formElement="input">
+            <settings>
+                <label translate="true">Expiration</label>
+                <dataType>text</dataType>
+                <disabled>true</disabled>
+            </settings>
+        </field>
+        <container name="account_status_container">
+            <htmlContent name="html_content">
+                <settings>
+                    <additionalClasses>
+                        <class name="admin__field">true</class>
+                    </additionalClasses>
+                </settings>
+                <block name="shopee.account.status"
+                    class="Upvado\ShopeeConnector\Block\Adminhtml\Account\Status">
+                    <arguments>
+                        <argument name="template" xsi:type="string">
+                            Upvado_ShopeeConnector::account/status.phtml</argument>
+                    </arguments>
+                </block>
+            </htmlContent>
+        </container>
+    </fieldset>
+    <fieldset name="category_mapping">
+        <settings>
+            <label translate="true">Category Mapping</label>
+        </settings>
+        <dynamicRows name="dynamic_rows">
+            <settings>
+                <addButtonLabel translate="true">Add Record</addButtonLabel>
+                <dndConfig>
+                    <param name="enabled" xsi:type="boolean">false</param>
+                </dndConfig>
+            </settings>
+            <container name="record" component="Magento_Ui/js/dynamic-rows/record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                        <item name="componentType" xsi:type="string">container</item>
+                    </item>
+                </argument>
+                <field name="system_category_id">
+                    <argument name="data" xsi:type="array">
+                        <item name="options" xsi:type="object">
+                            Magento\Catalog\Ui\Component\Product\Form\Categories\Options</item>
+                        <item name="config" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Magento Category</item>
+                            <item name="componentType" xsi:type="string">field</item>
+                            <item name="formElement" xsi:type="string">select</item>
+                            <item name="component" xsi:type="string">
+                                Magento_Catalog/js/components/new-category</item>
+                            <item name="elementTmpl" xsi:type="string">
+                                ui/grid/filters/elements/ui-select</item>
+                            <item name="dataScope" xsi:type="string">system_category_id</item>
+                            <item name="filterOptions" xsi:type="boolean">true</item>
+                            <item name="showCheckbox" xsi:type="boolean">false</item>
+                            <item name="disableLabel" xsi:type="boolean">true</item>
+                            <item name="multiple" xsi:type="boolean">false</item>
+                            <item name="levelsVisibility" xsi:type="number">1</item>
+                            <item name="sortOrder" xsi:type="number">20</item>
+                            <item name="required" xsi:type="boolean">true</item>
+                            <item name="listens" xsi:type="array">
+                                <item name="${ $.namespace }.${ $.namespace }:responseData"
+                                    xsi:type="string">setParsed</item>
+                            </item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="category_id" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">true</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>select</dataType>
+                        <label>Shopee Category</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options class="Upvado\ShopeeConnector\Model\Config\Source\Category" />
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+                <actionDelete template="Magento_Backend/dynamic-rows/cells/action-delete">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <additionalClasses>
+                            <class name="some-class">true</class>
+                        </additionalClasses>
+                        <dataType>text</dataType>
+                        <label>Actions</label>
+                        <componentType>actionDelete</componentType>
+                    </settings>
+                </actionDelete>
+            </container>
+        </dynamicRows>
+    </fieldset>
+    <fieldset name="attribute_mapping">
+        <settings>
+            <label translate="true">Attribute Mapping</label>
+        </settings>
+        <dynamicRows name="dynamic_rows">
+            <settings>
+                <addButtonLabel translate="true">Add Record</addButtonLabel>
+                <dndConfig>
+                    <param name="enabled" xsi:type="boolean">false</param>
+                </dndConfig>
+            </settings>
+            <container name="record" component="Magento_Ui/js/dynamic-rows/record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                        <item name="componentType" xsi:type="string">container</item>
+                    </item>
+                </argument>
+                <field name="system_attribute_id" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label>Magento Product Attribute</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options
+                                    class="Upvado\ShopeeConnector\Model\Product\System\Source\Attribute" />
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+                <field name="attribute_id" formElement="select">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label>Shopee Product Attribute</label>
+                    </settings>
+                    <formElements>
+                        <select>
+                            <settings>
+                                <options
+                                    class="Upvado\ShopeeConnector\Model\Product\Source\Attribute" />
+                            </settings>
+                        </select>
+                    </formElements>
+                </field>
+                <actionDelete template="Magento_Backend/dynamic-rows/cells/action-delete">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <additionalClasses>
+                            <class name="some-class">true</class>
+                        </additionalClasses>
+                        <dataType>text</dataType>
+                        <label>Actions</label>
+                        <componentType>actionDelete</componentType>
+                    </settings>
+                </actionDelete>
+            </container>
+        </dynamicRows>
+    </fieldset>
+    <fieldset name="product">
+        <settings>
+            <label translate="true">Products</label>
+        </settings>
+        <field name="product_upload" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Product Upload</label>
+                <dataScope>product_upload</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <prefer>toggle</prefer>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="price_adjustment_type" formElement="select">
+            <settings>
+                <label translate="true">Price Adjustment Type</label>
+                <dataType>text</dataType>
+                <dataScope>price_adjustment_type</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options>
+                            <option name="0" xsi:type="array">
+                                <item name="value" xsi:type="string">increase_fixed</item>
+                                <item name="label" xsi:type="string" translate="true">Increase by
+                                    Fixed Price</item>
+                            </option>
+                            <option name="1" xsi:type="array">
+                                <item name="value" xsi:type="string">increase_percentage</item>
+                                <item name="label" xsi:type="string" translate="true">Increase by
+                                    Fixed Percentage</item>
+                            </option>
+                            <option name="2" xsi:type="array">
+                                <item name="value" xsi:type="string">decrease_fixed</item>
+                                <item name="label" xsi:type="string" translate="true">Decrease by
+                                    Fixed Price</item>
+                            </option>
+                            <option name="3" xsi:type="array">
+                                <item name="value" xsi:type="string">decrease_percentage</item>
+                                <item name="label" xsi:type="string" translate="true">Decrease by
+                                    Fixed Percentage</item>
+                            </option>
+                        </options>
+                        <caption translate="true">-- Please Select --</caption>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="price_adjustment_value" formElement="input">
+            <settings>
+                <label translate="true">Price Adjustment Value</label>
+                <dataType>number</dataType>
+                <validation>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="fulfillment_time" formElement="input">
+            <settings>
+                <label translate="true">Fulfillment Time (days)</label>
+                <dataType>number</dataType>
+                <validation>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-greater-than-zero" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="orders">
+        <settings>
+            <label translate="true">Orders</label>
+        </settings>
+        <field name="fetch_orders" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Fetch Orders</label>
+                <dataScope>fetch_orders</dataScope>
+                <dataType>boolean</dataType>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <prefer>toggle</prefer>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="default_shipping_method" formElement="select">
+            <settings>
+                <label translate="true">Default Shipping Method</label>
+                <dataType>select</dataType>
+                <dataScope>default_shipping_method</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Shipping\Model\Config\Source\Allmethods" />
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="default_payment_method" formElement="select">
+            <settings>
+                <label translate="true">Default Payment Method</label>
+                <dataType>select</dataType>
+                <dataScope>default_payment_method</dataScope>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Payment\Model\Config\Source\Allmethods" />
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="inventory">
+        <settings>
+            <label translate="true">Inventory</label>
+        </settings>
+        <field name="inventory_sync" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Sync Inventory</label>
+                <dataScope>sync_inventory</dataScope>
+                <dataType>boolean</dataType>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <prefer>toggle</prefer>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="inventory_threshold" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">5</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Threshold Value</label>
+                <dataType>number</dataType>
+                <validation>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+    </fieldset>
+</form>
+

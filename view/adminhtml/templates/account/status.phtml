@@ -1,0 +1,26 @@
+<?php
+
+/** @var \Upvado\ShopeeConnector\Block\Adminhtml\Account\Status $block */
+
+$account = $block->getAccount();
+?>
+
+<?php if ($account !== null): ?>
+    <div class="admin__field-label">
+        <label>
+            <span><?= __('Account Status') ?></span>
+        </label>
+    </div>
+    <div class="admin__field-control">
+        <span class="admin__field-value">
+            <span class="admin__field-value-text"><?= $account->isActive() ? __('Connected') : __('Not connected') ?></span>
+        </span>
+        <?php if (!$account->isActive()): ?>
+            <div class="admin__field-alert">
+                <p>
+                    <?= $block->getAlertMessage() ?>
+                </p>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

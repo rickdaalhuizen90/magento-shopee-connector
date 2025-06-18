@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                shopee_connector_cron_listing.shopee_connector_cron_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>shopee_connector_cron_listing_columns</spinner>
+        <deps>
+            <dep>shopee_connector_cron_listing.shopee_connector_cron_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="shopee_connector_cron_listing_data_source"
+        component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">schedule_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render" />
+        </settings>
+        <aclResource>Upvado_ShopeeConnector::cron</aclResource>
+        <dataProvider class="Upvado\ShopeeConnector\Ui\DataProvider\Cron\Listing\DataProvider"
+            name="shopee_connector_cron_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>schedule_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <paging name="listing_paging" />
+        <filters name="listing_filters" />
+    </listingToolbar>
+
+    <columns name="shopee_connector_cron_listing_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>schedule_id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="schedule_id">
+            <settings>
+                <label translate="true">ID</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+
+        <column name="job_code">
+            <settings>
+                <label translate="true">Job</label>
+                <dataType>select</dataType>
+                <filter>select</filter>
+                <options class="Upvado\ShopeeConnector\Model\Cron\Source\Job" />
+            </settings>
+        </column>
+
+        <column name="messages">
+            <settings>
+                <label translate="true">Messages</label>
+                <dataType>text</dataType>
+            </settings>
+        </column>
+
+        <column name="status" class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Cron\Status">
+            <settings>
+                <label translate="true">Status</label>
+                <dataType>select</dataType>
+                <filter>select</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <options class="Upvado\ShopeeConnector\Model\Cron\Source\Status" />
+            </settings>
+        </column>
+
+        <column name="scheduled_at">
+            <settings>
+                <label translate="true">Scheduled At</label>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <dateFormat>yyyy-MM-dd hh:mm</dateFormat>
+            </settings>
+        </column>
+
+        <column name="executed_at">
+            <settings>
+                <label translate="true">Executed At</label>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <dateFormat>yyyy-MM-dd hh:mm</dateFormat>
+            </settings>
+        </column>
+
+        <column name="finished_at">
+            <settings>
+                <label translate="true">Finished At</label>
+                <dataType>date</dataType>
+                <dateFormat>yyyy-MM-dd hh:mm</dateFormat>
+            </settings>
+        </column>
+    </columns>
+</listing>
+

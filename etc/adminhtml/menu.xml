@@ -1,0 +1,59 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Upvado_ShopeeConnector::shopee_integration"
+            title="Shopee Connector"
+            module="Upvado_ShopeeConnector"
+            sortOrder="100"
+            resource="Upvado_ShopeeConnector::shopee_integration" />
+
+        <add id="Upvado_ShopeeConnector::accounts"
+            title="Accounts"
+            module="Upvado_ShopeeConnector"
+            sortOrder="10"
+            parent="Upvado_ShopeeConnector::shopee_integration"
+            action="shopee_connector/account/index"
+            resource="Upvado_ShopeeConnector::accounts" />
+
+        <add id="Upvado_ShopeeConnector::products"
+            title="Products"
+            module="Upvado_ShopeeConnector"
+            sortOrder="30"
+            parent="Upvado_ShopeeConnector::shopee_integration"
+            action="shopee_connector/product/index"
+            resource="Upvado_ShopeeConnector::products" />
+
+        <add id="Upvado_ShopeeConnector::orders"
+            title="Orders"
+            module="Upvado_ShopeeConnector"
+            sortOrder="40"
+            parent="Upvado_ShopeeConnector::shopee_integration"
+            action="shopee_connector/order/index"
+            resource="Upvado_ShopeeConnector::orders" />
+
+        <add id="Upvado_ShopeeConnector::cron_jobs"
+            title="Cron Jobs"
+            module="Upvado_ShopeeConnector"
+            sortOrder="50"
+            parent="Upvado_ShopeeConnector::shopee_integration"
+            action="shopee_connector/cron/index"
+            resource="Upvado_ShopeeConnector::cron_jobs" />
+
+        <add id="Upvado_ShopeeConnector::activity"
+            title="Activity"
+            module="Upvado_ShopeeConnector"
+            sortOrder="60"
+            parent="Upvado_ShopeeConnector::shopee_integration"
+            action="shopee_connector/activity/index"
+            resource="Upvado_ShopeeConnector::activity" />
+
+        <add id="Upvado_ShopeeConnector::configuration"
+            title="Configuration"
+            module="Upvado_ShopeeConnector"
+            sortOrder="70"
+            parent="Upvado_ShopeeConnector::shopee_integration"
+            action="adminhtml/system_config/edit/section/shopee_connector"
+            resource="Magento_Config::config" />
+    </menu>
+</config>
+

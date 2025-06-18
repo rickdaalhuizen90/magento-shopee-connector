@@ -1,0 +1,7 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Upvado\ShopeeConnector\Api\Data;
+
+interface AccountInterface {}

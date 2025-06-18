@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                shopee_connector_order_listing.shopee_connector_order_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>shopee_connector_order_listing_columns</spinner>
+        <deps>
+            <dep>shopee_connector_order_listing.shopee_connector_order_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="shopee_connector_order_listing_data_source"
+        component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render" />
+        </settings>
+        <aclResource>Upvado_ShopeeConnector::orders</aclResource>
+        <dataProvider class="Upvado\ShopeeConnector\Ui\DataProvider\Order\Listing\DataProvider"
+            name="shopee_connector_order_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <paging name="listing_paging" />
+        <filters name="listing_filters" />
+    </listingToolbar>
+    <columns name="shopee_connector_order_listing_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="entity_id">
+            <settings>
+                <label translate="true">ID</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+
+        <column name="magento_order_id">
+            <settings>
+                <label translate="true">Magento Order ID</label>
+                <dataType>text</dataType>
+                <sortable>true</sortable>
+                <filter>text</filter>
+            </settings>
+        </column>
+
+        <column name="order_sn">
+            <settings>
+                <label translate="true">Shopee Order ID</label>
+                <dataType>text</dataType>
+                <sortable>true</sortable>
+                <filter>text</filter>
+            </settings>
+        </column>
+
+        <column name="region" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <label translate="true">Region</label>
+                <dataType>select</dataType>
+                <filter>select</filter>
+                <options class="Upvado\ShopeeConnector\Model\Account\Source\Region" />
+            </settings>
+        </column>
+
+        <column name="customer"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Order\Customer">
+            <settings>
+                <label translate="true">Customer</label>
+                <dataType>text</dataType>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="total_amount" class="Magento\Sales\Ui\Component\Listing\Column\Price">
+            <settings>
+                <label translate="true">Total Amount</label>
+                <dataType>text</dataType>
+                <filter>range</filter>
+            </settings>
+        </column>
+
+        <column name="status">
+            <settings>
+                <label translate="true">Status</label>
+                <dataType>text</dataType>
+            </settings>
+        </column>
+
+        <column name="last_synced_at"
+            class="Upvado\ShopeeConnector\Ui\Component\Listing\Column\Order\LastSyncedAt">
+            <settings>
+                <label translate="true">Last Sync</label>
+                <dataType>text</dataType>
+                <sortable>true</sortable>
+                <filter>dateRange</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions" class="Magento\Sales\Ui\Component\Listing\Column\ViewAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="viewUrlPath" xsi:type="string">sales/order/view</item>
+                    <item name="urlEntityParamName" xsi:type="string">order_id</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Action</label>
+                <indexField>magento_order_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>
+
